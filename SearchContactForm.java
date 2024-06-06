@@ -6,12 +6,8 @@ import java.awt.event.ActionListener;
 public class SearchContactForm extends JFrame {
 
     private JTextField searchField;
-    private JLabel contactIdLabel;
-    private JLabel nameLabel;
-    private JLabel contactNumberLabel;
-    private JLabel companyLabel;
-    private JLabel salaryLabel;
-    private JLabel birthdayLabel;
+    private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
+    private int indexOfContact = -1;
 
     public SearchContactForm() {
         setTitle("SEARCH CONTACT");
@@ -79,21 +75,15 @@ public class SearchContactForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
-                // Logic to search for the contact and display details
-                int indexOfContact = Validator.searchIndex(search);
+                indexOfContact = ReUsableCode.searchIndex(search);
+
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
                     searchField.setText("");
 
                 } else {
-                    Contact contact = AddContact.contactList.get(indexOfContact);
-
-                    contactIdLabel.setText("Contact ID: " + contact.getId());
-                    nameLabel.setText("Name: " + contact.getName());
-                    contactNumberLabel.setText("Contact Number: " + contact.getPhoneNumber());
-                    companyLabel.setText("Company: " + contact.getCompanyName());
-                    salaryLabel.setText("Salary: " + contact.getSalary());
-                    birthdayLabel.setText("Birthday: " + contact.getBirthday());
+                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                            companyLabel, salaryLabel, birthdayLabel);
                 }
             }
         });
@@ -124,11 +114,11 @@ public class SearchContactForm extends JFrame {
         panel.add(label, gbc);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(SearchContactForm::new);
-    }
-
     private void showPopupMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(SearchContactForm::new);
     }
 }

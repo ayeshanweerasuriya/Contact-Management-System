@@ -5,15 +5,9 @@ import java.awt.event.ActionListener;
 
 public class UpdateContact extends JFrame {
     private JTextField searchField;
-    private JLabel contactIdLabel;
-    private JLabel nameLabel;
-    private JLabel contactNumberLabel;
-    private JLabel companyLabel;
-    private JLabel salaryLabel;
-    private JLabel birthdayLabel;
-    private JButton updateButton;
-    private JButton cancelButton;
-    private JButton backButton;
+    private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
+    private JButton updateButton, clearButton, backButton;
+    private int indexOfContact = -1;
 
     public UpdateContact() {
         setTitle("UPDATE CONTACT");
@@ -77,8 +71,8 @@ public class UpdateContact extends JFrame {
         buttonPanel.add(updateButton);
         updateButton.setEnabled(false);
 
-        cancelButton = new JButton("Cancel");
-        buttonPanel.add(cancelButton);
+        clearButton = new JButton("Clear");
+        buttonPanel.add(clearButton);
 
         backButton = new JButton("Back To HomePge");
         gbc.gridx = 0;
@@ -98,8 +92,8 @@ public class UpdateContact extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
-                // Logic to search for the contact and display details
-                int indexOfContact = Validator.searchIndex(search);
+                indexOfContact = ReUsableCode.searchIndex(search);
+
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
                     updateButton.setEnabled(false);
@@ -107,15 +101,9 @@ public class UpdateContact extends JFrame {
                     clearFields();
 
                 } else {
-                    Contact contact = AddContact.contactList.get(indexOfContact);
                     updateButton.setEnabled(true);
-
-                    contactIdLabel.setText("Contact ID: " + contact.getId());
-                    nameLabel.setText("Name: " + contact.getName());
-                    contactNumberLabel.setText("Contact Number: " + contact.getPhoneNumber());
-                    companyLabel.setText("Company: " + contact.getCompanyName());
-                    salaryLabel.setText("Salary: " + contact.getSalary());
-                    birthdayLabel.setText("Birthday: " + contact.getBirthday());
+                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                            companyLabel, salaryLabel, birthdayLabel);
                 }
             }
         });
@@ -123,15 +111,7 @@ public class UpdateContact extends JFrame {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String search = searchField.getText();
-
-                int indexOfContact = Validator.searchIndex(search);
-
-                if (indexOfContact == -1 || search.equals("")) {
-                    showPopupMessage("No contact found for " + search + "...");
-                    updateButton.setEnabled(false);
-                    clearFields();
-                } else {
+                if (indexOfContact != -1) {
                     showUpdatePopup(indexOfContact);
                 }
             }
@@ -143,6 +123,16 @@ public class UpdateContact extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 new HomeScreen().setVisible(true);
                 dispose();
+            }
+        });
+
+        // Action listener for the "clear" button
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateButton.setEnabled(false);
+                searchField.setText("");
+                clearFields();
             }
         });
     }

@@ -27,6 +27,7 @@ public class HomeScreen extends JFrame {
         for (String label : buttonLabels) {
             JButton button = new JButton(label);
             button.setPreferredSize(new Dimension(150, 50)); // Set preferred size to make the button smaller
+            buttonPanel.add(button);
 
             if (label.equals("Exit")) {
                 button.addActionListener(new ActionListener() {
@@ -37,7 +38,7 @@ public class HomeScreen extends JFrame {
                 });
             }
 
-            if (label.equals("Add Contact"))
+            if (label.equals("Add Contact")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -45,8 +46,9 @@ public class HomeScreen extends JFrame {
                         dispose();
                     }
                 });
+            }
 
-            if (label.equals("Delete Contact"))
+            if (label.equals("Delete Contact")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -54,8 +56,9 @@ public class HomeScreen extends JFrame {
                         dispose();
                     }
                 });
+            }
 
-            if (label.equals("Search Contacts"))
+            if (label.equals("Search Contacts")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -63,8 +66,9 @@ public class HomeScreen extends JFrame {
                         dispose();
                     }
                 });
+            }
 
-            if (label.equals("Update Contact"))
+            if (label.equals("Update Contact")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -72,8 +76,9 @@ public class HomeScreen extends JFrame {
                         dispose();
                     }
                 });
+            }
 
-            if (label.equals("Sort Contacts"))
+            if (label.equals("Sort Contacts")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -81,8 +86,7 @@ public class HomeScreen extends JFrame {
                         dispose();
                     }
                 });
-
-            buttonPanel.add(button);
+            }
         }
 
         // Add the button panel to the frame

@@ -49,16 +49,4 @@ public class Validator {
             return false;
         }
     }
-
-    public static int searchIndex(String search) {
-        int indexOfContact = AddContact.contactList.findContactByPhoneNumber(search);
-
-        if (indexOfContact == -1) {
-            indexOfContact = AddContact.contactList.findContactByName(search);
-
-            return indexOfContact;
-        }
-
-        return indexOfContact;
-    }
 }

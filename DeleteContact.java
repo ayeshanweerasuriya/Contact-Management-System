@@ -5,15 +5,9 @@ import java.awt.event.ActionListener;
 
 public class DeleteContact extends JFrame {
     private JTextField searchField;
-    private JLabel contactIdLabel;
-    private JLabel nameLabel;
-    private JLabel contactNumberLabel;
-    private JLabel companyLabel;
-    private JLabel salaryLabel;
-    private JLabel birthdayLabel;
-    private JButton deleteButton;
-    private JButton cancelButton;
-    private JButton backButton;
+    private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
+    private JButton deleteButton, clearButton, backButton;
+    private int indexOfContact = -1;
 
     public DeleteContact() {
         setTitle("SEARCH CONTACT");
@@ -75,8 +69,8 @@ public class DeleteContact extends JFrame {
         buttonPanel.add(deleteButton);
         deleteButton.setEnabled(false);
 
-        cancelButton = new JButton("Cancel");
-        buttonPanel.add(cancelButton);
+        clearButton = new JButton("Cancel");
+        buttonPanel.add(clearButton);
 
         backButton = new JButton("Back To HomePge");
         gbc.gridx = 0;
@@ -95,8 +89,8 @@ public class DeleteContact extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
+                indexOfContact = ReUsableCode.searchIndex(search);
 
-                int indexOfContact = Validator.searchIndex(search);
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
                     deleteButton.setEnabled(false);
@@ -104,15 +98,9 @@ public class DeleteContact extends JFrame {
                     clearFields();
 
                 } else {
-                    Contact contact = AddContact.contactList.get(indexOfContact);
                     deleteButton.setEnabled(true);
-
-                    contactIdLabel.setText("Contact ID: " + contact.getId());
-                    nameLabel.setText("Name: " + contact.getName());
-                    contactNumberLabel.setText("Contact Number: " + contact.getPhoneNumber());
-                    companyLabel.setText("Company: " + contact.getCompanyName());
-                    salaryLabel.setText("Salary: " + contact.getSalary());
-                    birthdayLabel.setText("Birthday: " + contact.getBirthday());
+                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                            companyLabel, salaryLabel, birthdayLabel);
                 }
             }
         });
@@ -120,15 +108,8 @@ public class DeleteContact extends JFrame {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String search = searchField.getText();
 
-                int indexOfContact = Validator.searchIndex(search);
-
-                if (indexOfContact == -1 || search.equals("")) {
-                    showPopupMessage("No contact found for " + search + "...");
-                    deleteButton.setEnabled(false);
-                    clearFields();
-                } else {
+                if (indexOfContact != -1) {
                     int result = showConfirmationPopup("Are you sure you want to delete this contact?");
 
                     if (result == 1) {
@@ -151,6 +132,16 @@ public class DeleteContact extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 new HomeScreen().setVisible(true);
                 dispose();
+            }
+        });
+
+        // Action listener for the "clear" button
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteButton.setEnabled(false);
+                searchField.setText("");
+                clearFields();
             }
         });
     }

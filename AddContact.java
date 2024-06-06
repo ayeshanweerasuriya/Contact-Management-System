@@ -58,11 +58,11 @@ public class AddContact extends JFrame {
         // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton addButton = new JButton("ADD Contact");
-        JButton cancelButton = new JButton("Cancel");
+        JButton clearButton = new JButton("Clear");
         JButton backButton = new JButton("Back To Homepage");
 
         buttonPanel.add(addButton);
-        buttonPanel.add(cancelButton);
+        buttonPanel.add(clearButton);
         buttonPanel.add(backButton);
         addComponent(panel, buttonPanel, gbc, 0, 7, 2);
 
@@ -111,7 +111,7 @@ public class AddContact extends JFrame {
             }
         });
 
-        cancelButton.addActionListener(new ActionListener() {
+        clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearFields();
