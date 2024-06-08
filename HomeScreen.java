@@ -62,7 +62,7 @@ public class HomeScreen extends JFrame {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        new SearchContactForm().setVisible(true);
+                        new SearchContact().setVisible(true);
                         dispose();
                     }
                 });

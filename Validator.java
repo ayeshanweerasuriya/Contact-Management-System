@@ -3,6 +3,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Validator {
 
+    // phonenumber validator
     public static boolean phoneNumberValidator(String phoneNumber) {
         try {
             if (phoneNumber.charAt(0) != '0' || phoneNumber.length() > 10 || phoneNumber.length() < 10) {

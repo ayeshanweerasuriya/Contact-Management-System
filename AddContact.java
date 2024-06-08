@@ -4,14 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddContact extends JFrame {
-    public static ContactList contactList = new ContactList();
+    // public static ContactList contactList = new ContactList();
     private static int counter = 1;
-
-    private JTextField nameField;
-    private JTextField contactNumberField;
-    private JTextField companyField;
-    private JTextField salaryField;
-    private JTextField birthdayField;
+    private JTextField nameField, contactNumberField, companyField, salaryField, birthdayField;
 
     public AddContact() {
         setTitle("ADD CONTACT");
@@ -100,8 +95,10 @@ public class AddContact extends JFrame {
                     birthdayField.setText("");
                 } else {
 
-                    Contact contact = new Contact(generateContactId(), name, phoneNumber, company, salary, birthday);
-                    contactList.add(contact);
+                    // Contact contact = new Contact(generateContactId(), name, phoneNumber,
+                    // company, salary, birthday);
+                    // contactList.add(contact);
+                    ContactManager.addContact(generateContactId(), name, phoneNumber, company, salary, birthday);
                     counter++;
                     showPopupMessage("Contact added successfully!");
                     clearFields();

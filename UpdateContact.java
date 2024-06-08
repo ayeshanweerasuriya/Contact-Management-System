@@ -92,7 +92,7 @@ public class UpdateContact extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
-                indexOfContact = ReUsableCode.searchIndex(search);
+                indexOfContact = ContactManager.searchContactIndex(search);
 
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
@@ -102,7 +102,7 @@ public class UpdateContact extends JFrame {
 
                 } else {
                     updateButton.setEnabled(true);
-                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                    ContactManager.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
                             companyLabel, salaryLabel, birthdayLabel);
                 }
             }
@@ -176,7 +176,7 @@ public class UpdateContact extends JFrame {
                 String phoneNumber = newPhoneNumberInput.getText();
                 String salary = newSalaryInput.getText();
 
-                Contact contact = AddContact.contactList.get(indexOfContact);
+                Contact contact = ContactManager.getContactObject(indexOfContact);
 
                 if (name.length() != 0) {
                     contact.setName(name);

@@ -29,19 +29,19 @@ public class ListContactsBy extends JFrame {
         mainPanel.add(titleLabel, gbc);
 
         if (sortby.equals("SALARY")) {
-            Sort.sortingArrayBySalary(AddContact.contactList);
+            ContactManager.sortBySalary();
         } else if (sortby.equals("NAME")) {
-            Sort.sortingArrayByName(AddContact.contactList);
+            ContactManager.sortByName();
         } else if (sortby.equals("BIRTHDAY")) {
-            Sort.sortingArrayByBirthday(AddContact.contactList);
+            ContactManager.sortByBirthday();
         }
 
         // Create the table with contact data
         String[] columnNames = { "Contact ID", "Name", "Contact Number", "Company", "Salary", "Birthday" };
-        Object[][] data = new Object[AddContact.contactList.size()][6];
+        Object[][] data = new Object[ContactManager.getContactList().size()][6];
 
-        for (int i = 0; i < AddContact.contactList.size(); i++) {
-            Contact contact = AddContact.contactList.get(i);
+        for (int i = 0; i < ContactManager.getContactList().size(); i++) {
+            Contact contact = ContactManager.getContactObject(i);
             data[i][0] = contact.getId();
             data[i][1] = contact.getName();
             data[i][2] = contact.getPhoneNumber();

@@ -3,13 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SearchContactForm extends JFrame {
+public class SearchContact extends JFrame {
 
     private JTextField searchField;
     private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
     private int indexOfContact = -1;
 
-    public SearchContactForm() {
+    public SearchContact() {
         setTitle("SEARCH CONTACT");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +75,14 @@ public class SearchContactForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
-                indexOfContact = ReUsableCode.searchIndex(search);
+                indexOfContact = ContactManager.searchContactIndex(search);
 
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
                     searchField.setText("");
 
                 } else {
-                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                    ContactManager.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
                             companyLabel, salaryLabel, birthdayLabel);
                 }
             }
@@ -119,6 +119,6 @@ public class SearchContactForm extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SearchContactForm::new);
+        SwingUtilities.invokeLater(SearchContact::new);
     }
 }

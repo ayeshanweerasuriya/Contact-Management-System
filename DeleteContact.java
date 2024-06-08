@@ -89,7 +89,7 @@ public class DeleteContact extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String search = searchField.getText();
-                indexOfContact = ReUsableCode.searchIndex(search);
+                indexOfContact = ContactManager.searchContactIndex(search);
 
                 if (indexOfContact == -1) {
                     showPopupMessage("No contact found for " + search + "...");
@@ -99,7 +99,7 @@ public class DeleteContact extends JFrame {
 
                 } else {
                     deleteButton.setEnabled(true);
-                    ReUsableCode.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                    ContactManager.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
                             companyLabel, salaryLabel, birthdayLabel);
                 }
             }
@@ -113,7 +113,8 @@ public class DeleteContact extends JFrame {
                     int result = showConfirmationPopup("Are you sure you want to delete this contact?");
 
                     if (result == 1) {
-                        AddContact.contactList.remove(indexOfContact);
+                        // AddContact.contactList.remove(indexOfContact);
+                        ContactManager.removeContact(indexOfContact);
                         showPopupMessage("Contact has been deleted successfully...");
                         clearFields();
                         new HomeScreen().setVisible(true);
