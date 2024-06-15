@@ -10,7 +10,7 @@ public class DeleteContact extends JFrame {
     private int indexOfContact = -1;
 
     public DeleteContact() {
-        setTitle("SEARCH CONTACT");
+        setTitle("DELETE CONTACT");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -22,7 +22,7 @@ public class DeleteContact extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel header = new JLabel("SEARCH CONTACT", JLabel.CENTER);
+        JLabel header = new JLabel("DELETE CONTACT", JLabel.CENTER);
         header.setFont(new Font("Arial", Font.BOLD, 24));
         header.setOpaque(true);
         header.setBackground(Color.CYAN);

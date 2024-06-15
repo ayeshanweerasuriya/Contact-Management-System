@@ -24,7 +24,7 @@ public class UpdateContact extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Header
-        JLabel header = new JLabel("SEARCH CONTACT", JLabel.CENTER);
+        JLabel header = new JLabel("UPDATE CONTACT", JLabel.CENTER);
         header.setFont(new Font("Arial", Font.BOLD, 24));
         header.setOpaque(true);
         header.setBackground(Color.CYAN);

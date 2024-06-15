@@ -13,6 +13,10 @@ public class HomeScreen extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        // Add IMAGE
+        ImageIcon image = new ImageIcon("icons/contact.png");
+        this.setIconImage(image.getImage());
+
         JLabel headingLabel = new JLabel("Welcome to Contact Management System", JLabel.CENTER);
         headingLabel.setFont(new Font("Serif", Font.BOLD, 24));
 
@@ -21,19 +25,18 @@ public class HomeScreen extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
 
-        // Create and add six buttons to the panel
         String[] buttonLabels = { "Add Contact", "Update Contact", "Delete Contact", "Search Contacts", "Sort Contacts",
                 "Exit" };
         for (String label : buttonLabels) {
             JButton button = new JButton(label);
-            button.setPreferredSize(new Dimension(150, 50)); // Set preferred size to make the button smaller
+            button.setPreferredSize(new Dimension(150, 50));
             buttonPanel.add(button);
 
             if (label.equals("Exit")) {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.exit(0); // Exit the program
+                        System.exit(0);
                     }
                 });
             }
@@ -89,15 +92,7 @@ public class HomeScreen extends JFrame {
             }
         }
 
-        // Add the button panel to the frame
         this.add(buttonPanel, BorderLayout.CENTER);
-
-        // Add IMAGE
-        ImageIcon image = new ImageIcon("icons/contact.png");
-        this.setIconImage(image.getImage());
-
-        this.getContentPane().setBackground(new Color(193, 232, 204));
-
         this.setVisible(true);
     }
 }
