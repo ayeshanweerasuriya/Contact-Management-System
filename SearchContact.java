@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SearchContact extends JFrame {
+public class SearchContact extends MyFrame {
 
     private JTextField searchField;
     private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
@@ -11,14 +9,10 @@ public class SearchContact extends JFrame {
 
     public SearchContact() {
         setTitle("SEARCH CONTACT");
-        setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
 
         // Create the panel for the form
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -40,7 +34,6 @@ public class SearchContact extends JFrame {
         // Search Field
         searchField = new JTextField(20);
         JButton searchButton = new JButton("Search");
-        gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         panel.add(searchField, gbc);
@@ -65,36 +58,28 @@ public class SearchContact extends JFrame {
 
         // Back button
         JButton backButton = new JButton("Back To Homepage");
-        gbc.gridx = 0;
         gbc.gridy = 8;
         gbc.gridwidth = 2;
         panel.add(backButton, gbc);
 
         // Action listener for the "Search" button
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String search = searchField.getText();
-                indexOfContact = ContactManager.searchContactIndex(search);
+        searchButton.addActionListener(e -> {
+            String search = searchField.getText();
+            indexOfContact = ContactManager.searchContactIndex(search);
 
-                if (indexOfContact == -1) {
-                    showPopupMessage("No contact found for " + search + "...");
-                    searchField.setText("");
-
-                } else {
-                    ContactManager.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
-                            companyLabel, salaryLabel, birthdayLabel);
-                }
+            if (indexOfContact == -1) {
+                showPopupMessage("No contact found for " + search + "...");
+                searchField.setText("");
+            } else {
+                ContactManager.displayContact(indexOfContact, contactIdLabel, nameLabel, contactNumberLabel,
+                        companyLabel, salaryLabel, birthdayLabel);
             }
         });
 
         // Action listener for the "Back To Homepage" button
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HomeScreen().setVisible(true);
-                dispose();
-            }
+        backButton.addActionListener(e -> {
+            new HomeScreen().setVisible(true);
+            dispose();
         });
 
         add(panel);

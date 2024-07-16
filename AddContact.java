@@ -1,25 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class AddContact extends JFrame {
-    // public static ContactList contactList = new ContactList();
+public class AddContact extends MyFrame {
     private static int counter = 1;
     private JTextField nameField, contactNumberField, companyField, salaryField, birthdayField;
 
     public AddContact() {
         setTitle("ADD CONTACT");
-        setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
 
         // Create the panel for the form
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Increased insets for better spacing
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Header
@@ -30,24 +23,17 @@ public class AddContact extends JFrame {
         JLabel contactIdLabel = createLabel("Contact ID - " + generateContactId(), new Font("Arial", Font.PLAIN, 16));
         addComponent(panel, contactIdLabel, gbc, 0, 1, 2);
 
-        // Name
+        // Form fields
         nameField = new JTextField(20);
-        addFormField(panel, gbc, "Name", nameField, 2);
-
-        // Contact Number
         contactNumberField = new JTextField(20);
-        addFormField(panel, gbc, "Contact Number", contactNumberField, 3);
-
-        // Company
         companyField = new JTextField(20);
-        addFormField(panel, gbc, "Company", companyField, 4);
-
-        // Salary
         salaryField = new JTextField(20);
-        addFormField(panel, gbc, "Salary", salaryField, 5);
-
-        // Birthday
         birthdayField = new JTextField(20);
+
+        addFormField(panel, gbc, "Name", nameField, 2);
+        addFormField(panel, gbc, "Contact Number", contactNumberField, 3);
+        addFormField(panel, gbc, "Company", companyField, 4);
+        addFormField(panel, gbc, "Salary", salaryField, 5);
         addFormField(panel, gbc, "Birthday", birthdayField, 6);
 
         // Buttons
@@ -61,62 +47,49 @@ public class AddContact extends JFrame {
         buttonPanel.add(backButton);
         addComponent(panel, buttonPanel, gbc, 0, 7, 2);
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HomeScreen().setVisible(true);
-                dispose();
-            }
+        // Button action listeners
+        backButton.addActionListener(e -> {
+            new HomeScreen().setVisible(true);
+            dispose();
         });
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String company = companyField.getText();
-                String phoneNumber = contactNumberField.getText();
-                String salary = salaryField.getText();
-                String birthday = birthdayField.getText();
-
-                if (name.isEmpty()) {
-                    showPopupMessage("Name field should not be empty.");
-                    nameField.setText("");
-                } else if (!Validator.phoneNumberValidator(phoneNumber)) {
-                    showPopupMessage("Phone number is invalid.");
-                    contactNumberField.setText("");
-                } else if (company.isEmpty()) {
-                    showPopupMessage("Company name field should not be empty.");
-                    companyField.setText("");
-                } else if (!Validator.salaryValidator(salary)) {
-                    showPopupMessage("Invalid salary. Please enter a valid number.");
-                    salaryField.setText("");
-                } else if (!Validator.dataValidator(birthday)) {
-                    showPopupMessage("Invalid birthday. Please enter a valid date.");
-                    birthdayField.setText("");
-                } else {
-
-                    // Contact contact = new Contact(generateContactId(), name, phoneNumber,
-                    // company, salary, birthday);
-                    // contactList.add(contact);
-                    ContactManager.addContact(generateContactId(), name, phoneNumber, company, salary, birthday);
-                    counter++;
-                    showPopupMessage("Contact added successfully!");
-                    clearFields();
-                    new HomeScreen().setVisible(true);
-                    dispose();
-                }
-            }
-        });
-
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clearFields();
-            }
-        });
+        addButton.addActionListener(e -> handleAddButton());
+        clearButton.addActionListener(e -> clearFields());
 
         add(panel);
         setVisible(true);
+    }
+
+    private void handleAddButton() {
+        String name = nameField.getText();
+        String company = companyField.getText();
+        String phoneNumber = contactNumberField.getText();
+        String salary = salaryField.getText();
+        String birthday = birthdayField.getText();
+
+        if (name.isEmpty()) {
+            showPopupMessage("Name field should not be empty.");
+            nameField.setText("");
+        } else if (!Validator.phoneNumberValidator(phoneNumber)) {
+            showPopupMessage("Phone number is invalid.");
+            contactNumberField.setText("");
+        } else if (company.isEmpty()) {
+            showPopupMessage("Company name field should not be empty.");
+            companyField.setText("");
+        } else if (!Validator.salaryValidator(salary)) {
+            showPopupMessage("Invalid salary. Please enter a valid number.");
+            salaryField.setText("");
+        } else if (!Validator.dataValidator(birthday)) {
+            showPopupMessage("Invalid birthday. Please enter a valid date.");
+            birthdayField.setText("");
+        } else {
+            ContactManager.addContact(generateContactId(), name, phoneNumber, company, salary, birthday);
+            counter++;
+            showPopupMessage("Contact added successfully!");
+            clearFields();
+            new HomeScreen().setVisible(true);
+            dispose();
+        }
     }
 
     private JLabel createLabel(String text, Font font, Color bg, int alignment) {
@@ -153,26 +126,7 @@ public class AddContact extends JFrame {
     }
 
     public static String generateContactId() {
-        String initialString = "C000";
-        String convertCounterToString = String.valueOf(counter);
-
-        String idCon = initialString + convertCounterToString;
-
-        if (idCon.length() == 6) {
-            String initialString1 = "C00";
-            return initialString1 + convertCounterToString;
-
-        } else if (idCon.length() == 7) {
-            String initialString2 = "C0";
-            return initialString2 + convertCounterToString;
-
-        } else if (idCon.length() == 8) {
-            String initialString3 = "C";
-            return initialString3 + convertCounterToString;
-
-        } else {
-            return idCon;
-        }
+        return "C" + String.format("%04d", counter);
     }
 
     private void showPopupMessage(String message) {

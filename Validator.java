@@ -42,7 +42,6 @@ public class Validator {
 
         try {
             LocalDate birthday = LocalDate.parse(birthdayString, dateFormatter);
-
             LocalDate currentDate = LocalDate.now();
 
             return !birthday.isAfter(currentDate);

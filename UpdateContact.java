@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UpdateContact extends JFrame {
+public class UpdateContact extends MyFrame {
     private JTextField searchField;
     private JLabel contactIdLabel, nameLabel, contactNumberLabel, companyLabel, salaryLabel, birthdayLabel;
     private JButton updateButton, clearButton, backButton;
@@ -11,14 +11,11 @@ public class UpdateContact extends JFrame {
 
     public UpdateContact() {
         setTitle("UPDATE CONTACT");
-        setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
 
         // Create the panel for the form
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -112,7 +109,7 @@ public class UpdateContact extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (indexOfContact != -1) {
-                    showUpdatePopup(indexOfContact);
+                    new UpdatePopup(indexOfContact);
                 }
             }
         });
@@ -135,109 +132,6 @@ public class UpdateContact extends JFrame {
                 clearFields();
             }
         });
-    }
-
-    private static void showUpdatePopup(int indexOfContact) {
-        // Create the labels and input fields
-        JLabel newName = new JLabel("Name: ");
-        JTextField newNameInput = new JTextField(20);
-
-        JLabel newPhoneNumber = new JLabel("Contact Number: ");
-        JTextField newPhoneNumberInput = new JTextField(20);
-
-        JLabel newCompanyName = new JLabel("Company: ");
-        JTextField newCompanyNameInput = new JTextField(20);
-
-        JLabel newSalary = new JLabel("Salary: ");
-        JTextField newSalaryInput = new JTextField(20);
-
-        // Create a panel to hold the components
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
-        panel.add(newName);
-        panel.add(newNameInput);
-        panel.add(newPhoneNumber);
-        panel.add(newPhoneNumberInput);
-        panel.add(newCompanyName);
-        panel.add(newCompanyNameInput);
-        panel.add(newSalary);
-        panel.add(newSalaryInput);
-
-        // Create the buttons
-        JButton updateButton = new JButton("Update");
-        JButton cancelButton = new JButton("Cancel");
-
-        updateButton.addActionListener(new ActionListener() {
-            boolean sucessMessage = false;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = newNameInput.getText();
-                String company = newCompanyNameInput.getText();
-                String phoneNumber = newPhoneNumberInput.getText();
-                String salary = newSalaryInput.getText();
-
-                Contact contact = ContactManager.getContactObject(indexOfContact);
-
-                if (name.length() != 0) {
-                    contact.setName(name);
-                    sucessMessage = true;
-
-                } else if (company.length() != 0) {
-                    contact.setCompanyName(company);
-                    sucessMessage = true;
-
-                } else if (phoneNumber.length() != 0) {
-                    if (!Validator.phoneNumberValidator(phoneNumber)) {
-                        showPopupMessage("Phone number is invalid.");
-                        newPhoneNumberInput.setText("");
-                    } else {
-                        contact.setPhoneNumber(phoneNumber);
-                        sucessMessage = true;
-                    }
-
-                } else if (salary.length() != 0) {
-                    if (!Validator.salaryValidator(salary)) {
-                        showPopupMessage("Invalid salary. Please enter a valid number.");
-                        newSalaryInput.setText("");
-                    } else {
-                        contact.setSalary(salary);
-                        sucessMessage = true;
-                    }
-
-                } else {
-                    showPopupMessage("No details to update...");
-                }
-
-                if (sucessMessage) {
-                    showPopupMessage("Contact Updated Successfully.");
-                }
-
-                // Close the dialog if everything is valid
-                Window window = SwingUtilities.getWindowAncestor(panel);
-                if (window != null) {
-                    window.dispose();
-                }
-            }
-        });
-
-        cancelButton.addActionListener(e -> {
-            Window window = SwingUtilities.getWindowAncestor(panel);
-            if (window != null) {
-                window.dispose();
-            }
-        });
-
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.add(updateButton);
-        buttonsPanel.add(cancelButton);
-
-        JDialog dialog = new JDialog((Frame) null, "Update Contact", true);
-        dialog.setLayout(new BorderLayout());
-        dialog.add(panel, BorderLayout.CENTER);
-        dialog.add(buttonsPanel, BorderLayout.SOUTH);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
     }
 
     private static void showPopupMessage(String message) {

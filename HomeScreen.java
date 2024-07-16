@@ -3,19 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class HomeScreen extends JFrame {
+public class HomeScreen extends MyFrame {
 
     HomeScreen() {
-        this.setSize(700, 500);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Contact Management System");
-        setLocationRelativeTo(null);
-        setResizable(false);
-
-        // Add IMAGE
-        ImageIcon image = new ImageIcon("icons/contact.png");
-        this.setIconImage(image.getImage());
 
         JLabel headingLabel = new JLabel("Welcome to Contact Management System", JLabel.CENTER);
         headingLabel.setFont(new Font("Serif", Font.BOLD, 24));
@@ -23,6 +14,7 @@ public class HomeScreen extends JFrame {
         this.getContentPane().add(headingLabel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
 
         String[] buttonLabels = { "Add Contact", "Update Contact", "Delete Contact", "Search Contacts", "Sort Contacts",

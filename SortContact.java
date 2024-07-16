@@ -1,41 +1,39 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SortContact extends JFrame {
+public class SortContact extends MyFrame {
 
     public SortContact() {
-        // Set title and default close operation
         setTitle("Contacts List");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 500);
-        setLocationRelativeTo(null);
-        setResizable(false);
 
         // Create the main panel with GridBagLayout
+        JPanel mainPanel = createMainPanel();
+        mainPanel.setBackground(Color.WHITE);
+
+        // Add main panel to frame
+        add(mainPanel);
+
+        // Make the frame visible
+        setVisible(true);
+    }
+
+    // Method to create the main panel with layout and components
+    private JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding between components
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.CENTER;
+        GridBagConstraints gbc = createGridBagConstraints();
 
         // Create and add the title label
-        JLabel titleLabel = new JLabel("CONTACTS LIST");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        JLabel titleLabel = createTitleLabel();
         gbc.gridy = 0;
         mainPanel.add(titleLabel, gbc);
 
         // Create and add the buttons
-        JButton listByNameButton = new JButton("List by Name");
-        JButton listBySalaryButton = new JButton("List by Salary");
-        JButton listByBirthdayButton = new JButton("List by Birthday");
-        JButton backButton = new JButton("Back To Homepage");
+        JButton listByNameButton = createButton("List by Name", e -> navigateToListContactsBy("NAME"));
+        JButton listBySalaryButton = createButton("List by Salary", e -> navigateToListContactsBy("SALARY"));
+        JButton listByBirthdayButton = createButton("List by Birthday", e -> navigateToListContactsBy("BIRTHDAY"));
+        JButton backButton = createButton("Back To Homepage", e -> navigateToHomeScreen());
 
         gbc.gridy = 1;
         mainPanel.add(listByNameButton, gbc);
@@ -48,57 +46,56 @@ public class SortContact extends JFrame {
 
         // Use weighty to push the button down
         gbc.gridy = 4;
-        gbc.weighty = 0;
+        gbc.weighty = 1;
         mainPanel.add(Box.createVerticalGlue(), gbc);
 
         gbc.gridy = 5;
         gbc.weighty = 0;
         mainPanel.add(backButton, gbc);
 
-        // Add main panel to frame
-        add(mainPanel);
+        return mainPanel;
+    }
 
-        // Make the frame visible
-        setVisible(true);
+    // Method to create and return GridBagConstraints with common settings
+    private GridBagConstraints createGridBagConstraints() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding between components
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        return gbc;
+    }
 
-        // Action listener for the "Back To Homepage" button
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HomeScreen().setVisible(true);
-                dispose();
-            }
-        });
+    // Method to create and return a JLabel for the title
+    private JLabel createTitleLabel() {
+        JLabel titleLabel = new JLabel("CONTACTS LIST");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        return titleLabel;
+    }
 
-        // Action listener for the "Back To Homepage" button
-        listBySalaryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ListContactsBy("SALARY").setVisible(true);
-                dispose();
-            }
-        });
+    // Method to create and return a JButton with specified text and action listener
+    private JButton createButton(String text, ActionListener actionListener) {
+        JButton button = new JButton(text);
+        button.addActionListener(actionListener);
+        return button;
+    }
 
-        // Action listener for the "Back To Homepage" button
-        listByNameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ListContactsBy("NAME").setVisible(true);
-                dispose();
-            }
-        });
+    // Method to navigate to HomeScreen
+    private void navigateToHomeScreen() {
+        new HomeScreen().setVisible(true);
+        dispose();
+    }
 
-        // Action listener for the "Back To Homepage" button
-        listByBirthdayButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ListContactsBy("BIRTHDAY").setVisible(true);
-                dispose();
-            }
-        });
+    // Method to navigate to ListContactsBy screen based on sort criteria
+    private void navigateToListContactsBy(String sortBy) {
+        new ListContactsBy(sortBy).setVisible(true);
+        dispose();
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new SortContact());
+        SwingUtilities.invokeLater(SortContact::new);
     }
 }
